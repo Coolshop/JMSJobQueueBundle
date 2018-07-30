@@ -518,6 +518,9 @@ class PersistentRelatedEntitiesCollection implements Collection, Selectable
         $entitiesPerClass = array();
         $count = 0;
         foreach ($con->query("SELECT related_class, related_id FROM jms_job_related_entities WHERE job_id = ".$this->job->getId()) as $data) {
+            foreach ($data as $idx => $el) {
+                $data[strtolower($idx)] = $el;
+            }
             $count += 1;
             $entitiesPerClass[$data['related_class']][] = json_decode($data['related_id'], true);
         }
